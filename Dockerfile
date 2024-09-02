@@ -1,4 +1,4 @@
-FROM python:3.10-arm64v8 AS builder
+FROM arm32v7/python:3.8-slim AS builder
 ENV DEBIAN_FRONTEND=noninteractive
 RUN pip install -U pdm
 ENV PDM_CHECK_UPDATE=false
@@ -11,7 +11,7 @@ RUN pdm install --prod --no-editable
 COPY install_dependencies.sh .
 RUN bash install_dependencies.sh
 
-FROM python:3.10-slim-bullseye-arm64v8
+FROM arm32v7/python:3.8-slim
 WORKDIR /app
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/ffmpeg /app/ffmpeg
